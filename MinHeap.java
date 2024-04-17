@@ -67,9 +67,51 @@ public class MinHeap {
         position[heap[fpos].vertex] = fpos;
         position[heap[spos].vertex] = spos;
     }
+    
+    public boolean in_heap(int id) {
+        return position[id] > 0 && position[id] <= size;
+    }
 
+    public int min_key() {
+        return heap[1].key;
+    }
 
+    public int min_id() {
+        return heap[1].vertex;
+    }
 
+    public int key(int id) {
+        if (in_heap(id)) {
+            return heap[position[id]].key;
+        }
+        return -1;
+    }
+    
+    public void delete_min() {
+        if (size == 0) return;
+        swap(1, size);
+        size--;
+        minHeapify(1);
+    }
 
+    // decrease key and maintain minheap
+    public void decrease_key(int id, int new_key) {
+        if (!in_heap(id)) 
+            return;
+
+        int i = position[id];
+        if (heap[i].key > new_key) {
+            heap[i].key = new_key;
+            while (i > 1 && heap[i].key < heap[i / 2].key) {
+                swap(i, i / 2);
+                i = i / 2;
+            }
+        }
+    }
+
+    public boolean isEmpty() {
+        return size == 0;
+    }
+    
 }
 

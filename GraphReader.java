@@ -43,8 +43,8 @@ public class GraphReader {
             double w = Double.parseDouble(parts[2]);
 
             // Add edges to both vertices for undirected graph
-            adjacencyList.get(i).add(new Edge(j, w));
-            adjacencyList.get(j).add(new Edge(i, w));
+            adjacencyList.get(i).add(new Edge(i, j, w));
+            adjacencyList.get(j).add(new Edge(j, i, w));
         }
 
         br.close();
