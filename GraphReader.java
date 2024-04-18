@@ -12,7 +12,8 @@ public class GraphReader {
             printGraph(adjacencyList);
 
             PrimMST prim = new PrimMST(adjacencyList, adjacencyList.size()-1);
-            prim.execute(); 
+            List<Edge> mst = prim.execute(); 
+            prim.printMST(mst);
 
 
         } catch (IOException e) {
@@ -66,13 +67,6 @@ public class GraphReader {
                 System.out.print(" " + edge.toString() + ";");
             }
             System.out.println();
-        }
-    }
-
-    public static void printMST(List<Edge> mstEdges) {
-        System.out.println("Minimum Spanning Tree:");
-        for (Edge edge : mstEdges) {
-            System.out.printf("Edge from vertices %d to %d with weight %.2f\n", edge.from, edge.to, edge.weight);
         }
     }
 }

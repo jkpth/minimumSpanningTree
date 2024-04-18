@@ -6,27 +6,23 @@ public class PrimMST {
     private List<List<Edge>> adjacencyList;
     private MinHeap heap;
     private int[] parent;
-    private double[] keys;
-    private int[] heapKeys;
+    private int[] keys;
 
     public PrimMST(List<List<Edge>> adjacencyList, int vertices) {
         this.adjacencyList = adjacencyList;
         this.heap = new MinHeap(vertices);
         
-        this.keys = new double[vertices + 1];
+        this.keys = new int[vertices + 1];
         this.parent = new int[vertices + 1];
-        this.heapKeys = new int[vertices + 1];
 
-        Arrays.fill(this.keys, Double.MAX_VALUE);
+        Arrays.fill(this.keys, Integer.MAX_VALUE);
         Arrays.fill(this.parent, -1);
-        Arrays.fill(this.heapKeys, Integer.MAX_VALUE);
         
         this.keys[1] = 0;
-        this.heapKeys[1] = 0;
-        this.heap.heap_ini(this.heapKeys, vertices);
+        this.heap.heap_ini(this.keys, vertices);
     }
 
-    public void execute() {
+    public List<Edge> execute() {
         List<Edge> mst = new ArrayList<>();
     
         while (!heap.isEmpty()) {
@@ -39,24 +35,22 @@ public class PrimMST {
     
             for (Edge edge : adjacencyList.get(u)) {
                 int v = edge.to;
-                double weight = edge.weight;
+                int weight = (int)(edge.weight* 100);
     
                 if (heap.in_heap(v) && weight < keys[v]) {
                     keys[v] = weight;
-                    int scaledWeight = (int)(weight * 100);
-                    heap.decrease_key(v, scaledWeight);
+                    heap.decrease_key(v, keys[v]);
                     parent[v] = u;
-                    heapKeys[v] = scaledWeight;
                 }
             }
         }
-        printMST(mst);
+        return mst;
     }
     
-    public static void printMST(List<Edge> mstEdges) {
+    public void printMST(List<Edge> mstEdges) {
         System.out.println("Minimum Spanning Tree:");
         for (Edge edge : mstEdges) {
-            System.out.printf("Edge from vertices %d to %d with weight %.2f\n", edge.from, edge.to, edge.weight);
+            System.out.printf("Edge from vertices %d to %d with weight %.2f\n", edge.from, edge.to, edge.weight/100);
         }
     }
 
